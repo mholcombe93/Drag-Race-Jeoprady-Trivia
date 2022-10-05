@@ -1,4 +1,4 @@
-const game = document.querySelector('.game--container')
+const game = document.querySelector('.game')
 const scoreDisplay = document.querySelector('.score')
 
 const jeopardyCategories = [
@@ -215,20 +215,61 @@ const jeopardyCategories = [
 ]
 
 
-
+//------------------------------- Creating Columns ---------------------------
 function addCategory(category) {
   const column = document.createElement('div');
   column.classList.add('genre-column');
 
   const genreTitle = document.createElement('div');
   genreTitle.classList.add('genre-title');
-  genreTitle.innerText = category.genre;
+  genreTitle.innerHTML = category.genre;
 
   column.appendChild(genreTitle);
-  game.append(column)
+  game.append(column);
+
+
+  category.questions.forEach(question => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    column.appendChild(card);
+
+    if (question.rank === 200) {
+     card.innerHTML = 200
+    }
+    if (question.rank === 400) {
+     card.innerHTML = 400
+    }
+    if (question.rank === 600) {
+     card.innerHTML = 600
+    }
+    if (question.rank === 800) {
+     card.innerHTML = 800
+    }
+    if (question.rank === 1000) {
+     card.innerHTML = 1000
+    }
+
+    card.setAttribute('data-question', question.question)
+    card.setAttribute('data-choices-1', question.choices[0])
+    card.setAttribute('data-choices-2', question.choices[1])
+    card.setAttribute('data-choices-3', question.choices[2])
+    card.setAttribute('data-choices-4', question.choices[3])
+    card.setAttribute('data-correct', question.correct)
+    card.setAttribute('data-value',card.getInnerHTML())
+
+
+    card.addEventListener('click',flipCard)
+
+})
+
+
+
+
 }
 
 jeopardyCategories.forEach(category => addCategory(category));
+
+//------------------------------- ^ Creating Columns ^ ---------------------------
 
 //---------------Pseduo code---------------\\
 // create two teams, using a submit box to make "team names"
