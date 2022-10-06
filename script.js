@@ -258,6 +258,7 @@ function addCategory(category) {
     card.setAttribute('data-correct', question.correct)
     card.setAttribute('data-value',card.getInnerHTML())
 
+
     card.addEventListener('click',flipCard)
 
 })
@@ -297,8 +298,16 @@ function flipCard() {
   choiceThree.addEventListener('click', getResult)
   choiceFour.addEventListener('click', getResult)
 
-  this.append(textDisplay, choiceOne, choiceTwo, choiceThree, choiceFour)
+  choiceOne.addEventListener('click', toggleModal) //hides modal on each button (should be a for loop)
+  choiceTwo.addEventListener('click', toggleModal)
+  choiceThree.addEventListener('click', toggleModal)
+  choiceFour.addEventListener('click', toggleModal)
 
+  modalGuts.innerHTML = '' //populating modal starting empty
+  modalGuts.dataset.correct = this.getAttribute('data-correct')
+  modalGuts.dataset.value = this.getAttribute('data-value')
+  modalGuts.append(textDisplay, choiceOne, choiceTwo, choiceThree, choiceFour) // addins in contents
+  modalContainer.classList.remove('hidden') //makes visable
 
   const allCards = Array.from(document.querySelectorAll('.card')) // removes clicking on other cards when one is flipped
   allCards.forEach(card => card.removeEventListener('click', flipCard))
@@ -310,6 +319,7 @@ const allCards = Array.from(document.querySelectorAll('.card'))
 allCards.forEach(card => card.addEventListener('click', flipCard))
 
   const cardOfButton = this.parentElement //gets the parrent of the button = the Div card
+  console.log(cardOfButton)
 
   if (cardOfButton.getAttribute('data-correct') === this.innerHTML) {
     score = score + parseInt(cardOfButton.getAttribute('data-value')) // adds score when correct
@@ -320,7 +330,7 @@ allCards.forEach(card => card.addEventListener('click', flipCard))
         cardOfButton.removeChild(cardOfButton.lastChild)
       }
       cardOfButton.innerHTML = cardOfButton.getAttribute('data-value')
-    }, 300)
+    }, 100)
   }
   else if (cardOfButton.getAttribute('data-correct') !== this.innerHTML) {
     score = score - parseInt(cardOfButton.getAttribute('data-value'))
@@ -331,9 +341,20 @@ allCards.forEach(card => card.addEventListener('click', flipCard))
         cardOfButton.removeChild(cardOfButton.lastChild)
       }
       cardOfButton.innerHTML = cardOfButton.getAttribute('data-value')
-    }, 300)
+    }, 100)
   }
   cardOfButton.removeEventListener('click', flipCard)
+}
+
+//------------------------- ^card flip and result^ ------------------
+
+//-------------------------- add modal to cards ------------------
+
+let modalContainer = document.querySelector('.modal-container')
+let modalGuts = document.querySelector('.modal-guts')
+
+function toggleModal() { // function to hide modal on button click
+  modalContainer.classList.add('hidden')
 }
 
 //---------------Pseduo code---------------\\
