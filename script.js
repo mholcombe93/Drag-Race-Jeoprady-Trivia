@@ -88,9 +88,9 @@ const jeopardyCategories = [
         rank: 400,
       },
       {
-        question: `This narcoleptic burlesque queen has won two drag race titles`,
+        question: `This narcoleptic burlesque queen won Season 5 and All Stars 7, being titled Queen of all Queens`,
         choices: ['Jinkx Monsoon', 'Raja', 'Trixie Mattel', 'Violet Chachki'],
-        correct: 'Kinkx Monsoon',
+        correct: 'Jinkx Monsoon',
         rank: 600,
       },
       {
@@ -112,8 +112,8 @@ const jeopardyCategories = [
     questions: [
       {
         question: `Sasha Velour used this prop to seal her win in the season 8 penulitmate lip sync "So Emotional" by Whittney Huston.`,
-        choices: ['Rose Pedals', 'Pyrotechnics', 'Angle Wings', 'Money Gun'],
-        correct: 'Rose Pedeals',
+        choices: ['Rose Petals', 'Pyrotechnics', 'Angle Wings', 'Money Gun'],
+        correct: 'Rose Petals',
         rank: 200,
       },
       {
@@ -269,7 +269,7 @@ jeopardyCategories.forEach(category => addCategory(category)); // adds the funct
 //------------------------------- ^ Creating Columns ^ ---------------------------
 
 //---------------------------------- Flip Card --------------------------------
-function flipCard() {
+function flipCard(event) {
   this.innerHTML = " " //empties the card
   this.style.fontSize = "20px"
   this.style.lineHeight = "26px"
@@ -311,39 +311,32 @@ function flipCard() {
 
   const allCards = Array.from(document.querySelectorAll('.card')) // removes clicking on other cards when one is flipped
   allCards.forEach(card => card.removeEventListener('click', flipCard))
-  
+  event.target.children.length = 0
+
 }
+
+
 
 function getResult() { 
 const allCards = Array.from(document.querySelectorAll('.card'))
-allCards.forEach(card => card.addEventListener('click', flipCard))
+  allCards.forEach(card => { //since we set the innerHTML to "" this lets us select all the ones with content and readd the click eventListener, without adding it to previous
+    if (card.innerText !== "") { 
+      card.addEventListener('click', flipCard)
+    }
+  })
 
-  const cardOfButton = this.parentElement //gets the parrent of the button = the Div card
+  const cardOfButton = modalGuts//gets the parrent of the button = the Div card
   console.log(cardOfButton)
 
   if (cardOfButton.getAttribute('data-correct') === this.innerHTML) {
     score = score + parseInt(cardOfButton.getAttribute('data-value')) // adds score when correct
     scoreDisplay.innerHTML = score
-    cardOfButton.classList.add('correct-answer') // will change answer to good color
-    setTimeout(() => { // after 300ms removes all eliments inside parent div
-      while (cardOfButton.firstchild) {
-        cardOfButton.removeChild(cardOfButton.lastChild)
-      }
-      cardOfButton.innerHTML = cardOfButton.getAttribute('data-value')
-    }, 100)
   }
   else if (cardOfButton.getAttribute('data-correct') !== this.innerHTML) {
     score = score - parseInt(cardOfButton.getAttribute('data-value'))
     scoreDisplay.innerHTML = score
-    cardOfButton.classList.add('wrong-answer') // will change answer to bad color
-    setTimeout(() => {
-      while (cardOfButton.firstchild) {
-        cardOfButton.removeChild(cardOfButton.lastChild)
-      }
-      cardOfButton.innerHTML = cardOfButton.getAttribute('data-value')
-    }, 100)
   }
-  cardOfButton.removeEventListener('click', flipCard)
+  cardOfButton.removeEventListener('click', flipCard, {once: true})
 }
 
 //------------------------- ^card flip and result^ ------------------
@@ -355,6 +348,7 @@ let modalGuts = document.querySelector('.modal-guts')
 
 function toggleModal() { // function to hide modal on button click
   modalContainer.classList.add('hidden')
+
 }
 
 //---------------Pseduo code---------------\\
