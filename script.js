@@ -305,22 +305,6 @@ function flipCard() {
   
 }
 
-// function clicked(e){
-//   let allCards = document.querySelectorAll('.card')
-//   for (let i = 0; i < allCards.length; i++){
-//       let card = allCards[i]
-//     if (card === e.target) {
-//       card.removeEventListener('click',clicked)
-//           console.log('whatever the message is')
-//     }
-//     else {
-//       card.addEventListener('click',clicked)
-//         console.log('whatever the message is')
-//     }
-//   }
-// }
-
-
 function getResult() { 
 const allCards = Array.from(document.querySelectorAll('.card'))
 allCards.forEach(card => card.addEventListener('click', flipCard))
