@@ -303,6 +303,7 @@ const allCards = Array.from(document.querySelectorAll('.card'))
     else { // adds all used cards into a new css class removing all pointer events
       card.classList.add('emptyCard')
       emptyCardArr.push(card)
+      // if (emptyCardArr.indexOf(whatever) != -1){emptyCardArr.push(whateever)}
       console.log(emptyCardArr)
     }
   })
@@ -314,30 +315,9 @@ const allCards = Array.from(document.querySelectorAll('.card'))
     if (score < 0) {
       scoreDisplay.style.color = "red"
     }
-    else if (score < 2000) {
-      scoreDisplay.style.color = "whitesmoke"
-    }
-    else if (score < 4000) {
-      scoreDisplay.style.color = "whitesmoke"
-      scoreDisplay.classList.add ('scoreRank2')
-    }
-    else if (score < 6000) {
-      scoreDisplay.style.color = "whitesmoke"
-      scoreDisplay.classList.add ('scoreRank3')
-    }
-    else if (score < 8000) {
-      scoreDisplay.style.color = "whitesmoke"
-      scoreDisplay.classList.add ('scoreRank4')
-    }
-    else if (score < 10000) {
-      scoreDisplay.style.color = "whitesmoke"
-      scoreDisplay.classList.add ('scoreRank5')
-    }
     else {
       scoreDisplay.style.color = "whitesmoke"
-      scoreDisplay.classList.add ('scoreRank6')
     }
-    
     scoreDisplay.innerHTML = `Score: ${score}`
     console.log(score)
   }
