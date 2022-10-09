@@ -396,8 +396,24 @@ function getResult() {
   }
   cardOfButton.removeEventListener("click", flipCard);
 
-  if (tries === 27) {
-    alert("Game Over");
+  if (tries === 0) {
+    // gifModal = document.querySelectorAll('#gif-modal')
+    // gifModal.classList.remove('hidden')
+    if (score < 0) {
+        alert("GURRRRRL! You must have been first out! Refreseh the page and try again!")
+    }
+    else if (score < 4000) {
+      alert("Well there is always a filler queen each season. Refresh the page and get and try again.")
+    }
+   else  if (score < 8000) {
+      alert("Not bad Miss Congeniality. Refresh the page and get ready for All Stars.")
+    }
+    else if (score < 12000) {
+      alert("You made it to the finale! but didnt stach the crown. Refresh and try again queen.")
+    }
+    else {
+      alert("You're a winner baby! Now prance my Queen! To Play again, refresh the page.")
+    }
   }
 }
 

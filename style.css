@@ -159,3 +159,15 @@ button:hover {
 .emptyCard{
   pointer-events: none;
 }
+
+#gif-modal:hidden{
+  opacity: 1;
+  background-color: rgba(250, 250, 250, 0.25);
+  background:radial-gradient(circle, rgba(199, 189, 196, 0.855) 5%, transparent 90%) rgb(191, 33, 149);
+  backdrop-filter: blur(8px);
+  border-radius: 26px;
+  margin: 10vh 14.7em;
+  width: 725px;
+
+  align-items: center;
+}
