@@ -2,7 +2,7 @@ const game = document.querySelector('.game')
 const scoreDisplay = document.querySelector('.score')
 
 const jeopardyCategories = [
-  {
+  { //house in a seperate file and reference "constants.js"
     genre: "CATCH PHRASES",
     questions: [
       {
@@ -178,44 +178,43 @@ const jeopardyCategories = [
     ]
   },
   {
-    genre: "JUDGES PANEL",
+    genre: "PRODUCTION",
     questions: [
       {
-        question: `Michelle Visage is from this state. `,
+        question: `Judge Michelle Visage is from this state.`,
         choices: ['California', 'Wissconsin', 'New York', 'New Jersey'],
         correct: 'New Jersey',
         rank: 200,
       },
       {
-        question: `This Down Under comedian was a full time judge for Drag Race Australia.`,
-        choices: ['Rhys Nicholson', 'Iliza Shlesinger', 'Rebel Wilson', 'Santino Rice'],
-        correct: 'Rhys Nicholson',
+        question: `The models that assit on the show go by this name.`,
+        choices: ['Ru Boys', 'Pit Crew', 'Ru Crew', 'Pit Boys'],
+        correct: 'Pit Crew',
         rank: 400,
       },
       {
-        question: ``,
-        choices: ['Back rolls', 'Belly fat', 'Weak ankles', 'Shotty vocal chords'],
-        correct: 'Back rolls',
+        question: `The spin off show that follows the queens backstage during judges delibaeration is know as this.`,
+        choices: ['All Access', 'Ru\'vealed', 'Untucked', 'Werkroom'],
+        correct: 'Untucked',
         rank: 600,
       },
       {
-        question: `"`,
-        choices: ['Ben De la Creme', 'Courtney Act', 'Adore Delano', 'Laganja Estranja'],
-        correct: 'Courtney Act',
+        question: `Dragrace Cameraman Sarge plays this drag persona in season 9`,
+        choices: ['Winter Green', 'Spearmint', 'Peppermint', 'Menthol'],
+        correct: 'Winter Green',
         rank: 800,
       },
       {
-        question: `Bianca Del Rio told judge Santino Rice that she will show versitility when he wears this artile of clothing`,
-        choices: ['A Pencil Skirt', 'Loafers', 'A Turtleneck', 'Anything Green'],
-        correct: 'A Turtleneck',
+        question: `In the first 4 seasons of the show the backstage area was known as this,`,
+        choices: ['The Werk Room', 'Interior Illusions Lounge', 'The Untucking Station', 'The Porkchop Loading Dock'],
+        correct: 'Interior Illusions Lounge',
         rank: 1000,
       },
     ],
   },
 ]
 
-let score = 0
-
+let score = 000
 //------------------------------- Creating Columns ---------------------------
 function addCategory(category) {
   const column = document.createElement('div'); // creates column div and adds class
@@ -233,31 +232,12 @@ function addCategory(category) {
     const card = document.createElement('div');
     card.classList.add('card');
     column.appendChild(card);
-
-    if (question.rank === 200) {
-     card.innerHTML = 200
-    }
-    if (question.rank === 400) {
-     card.innerHTML = 400
-    }
-    if (question.rank === 600) {
-     card.innerHTML = 600
-    }
-    if (question.rank === 800) {
-     card.innerHTML = 800
-    }
-    if (question.rank === 1000) {
-     card.innerHTML = 1000
-    }
+    card.innerHTML = question.rank
 
     card.setAttribute('data-question', question.question)
-    card.setAttribute('data-choices-1', question.choices[0])
-    card.setAttribute('data-choices-2', question.choices[1])
-    card.setAttribute('data-choices-3', question.choices[2])
-    card.setAttribute('data-choices-4', question.choices[3])
+    question.choices.forEach((choice, index) => card.setAttribute(`data-choices-${index+1}`, choice)) //sets data-choices to each question 
     card.setAttribute('data-correct', question.correct)
     card.setAttribute('data-value',card.getInnerHTML())
-
 
     card.addEventListener('click',flipCard)
 
@@ -270,25 +250,22 @@ jeopardyCategories.forEach(category => addCategory(category)); // adds the funct
 
 //---------------------------------- Flip Card --------------------------------
 function flipCard(event) {
-  this.innerHTML = " " //empties the card
-  this.style.fontSize = "20px"
-  this.style.lineHeight = "26px"
+  this.innerHTML = " " //empties the card info, used to remove eventListener in getResult
   const textDisplay = document.createElement('div') //creates text for question
   textDisplay.classList.add('card-text') // adds class for style
   textDisplay.innerHTML = this.getAttribute('data-question') // gets the text from the question
 
+  const choiceOne = document.createElement('button') //creates the choies button
+  const choiceTwo = document.createElement('button')
+  const choiceThree = document.createElement('button')
+  const choiceFour = document.createElement('button')
 
- const choiceOne = document.createElement('button') //creates the choies button
- const choiceTwo = document.createElement('button')
- const choiceThree = document.createElement('button')
- const choiceFour = document.createElement('button')
-
-  choiceOne.classList.add('choice-one') // adds class, styles buttons
+  choiceOne.classList.add('choice-one') // adds classes, styles buttons
   choiceTwo.classList.add('choice-two')
   choiceThree.classList.add('choice-three')
   choiceFour.classList.add('choice-four')
 
-  choiceOne.innerHTML = this.getAttribute('data-choices-1') // sets text of hoies on button
+  choiceOne.innerHTML = this.getAttribute('data-choices-1') // sets text of house on button
   choiceTwo.innerHTML = this.getAttribute('data-choices-2') 
   choiceThree.innerHTML = this.getAttribute('data-choices-3') 
   choiceFour.innerHTML = this.getAttribute('data-choices-4') 
@@ -303,7 +280,7 @@ function flipCard(event) {
   choiceThree.addEventListener('click', toggleModal)
   choiceFour.addEventListener('click', toggleModal)
 
-  modalGuts.innerHTML = '' //populating modal starting empty
+  modalGuts.innerHTML = '' //populating modal starting empty, prevents cards from stacking when flipped
   modalGuts.dataset.correct = this.getAttribute('data-correct')
   modalGuts.dataset.value = this.getAttribute('data-value')
   modalGuts.append(textDisplay, choiceOne, choiceTwo, choiceThree, choiceFour) // addins in contents
@@ -315,29 +292,68 @@ function flipCard(event) {
 
 }
 
-
+const emptyCardArr = []
 
 function getResult() { 
 const allCards = Array.from(document.querySelectorAll('.card'))
-  allCards.forEach(card => { //since we set the innerHTML to "" this lets us select all the ones with content and readd the click eventListener, without adding it to previous
+  allCards.forEach(card => { //since we set the innerHTML to "" this lets us select all the ones with content and re-add the click eventListener, without adding it to previous
     if (card.innerText !== "") { 
       card.addEventListener('click', flipCard)
+    }
+    else { // adds all used cards into a new css class removing all pointer events
+      card.classList.add('emptyCard')
+      emptyCardArr.push(card)
+      console.log(emptyCardArr)
     }
   })
 
   const cardOfButton = modalGuts//gets the parrent of the button = the Div card
-  console.log(cardOfButton)
 
   if (cardOfButton.getAttribute('data-correct') === this.innerHTML) {
     score = score + parseInt(cardOfButton.getAttribute('data-value')) // adds score when correct
-    scoreDisplay.innerHTML = score
+    if (score < 0) {
+      scoreDisplay.style.color = "red"
+    }
+    else if (score < 2000) {
+      scoreDisplay.style.color = "whitesmoke"
+    }
+    else if (score < 4000) {
+      scoreDisplay.style.color = "whitesmoke"
+      scoreDisplay.classList.add ('scoreRank2')
+    }
+    else if (score < 6000) {
+      scoreDisplay.style.color = "whitesmoke"
+      scoreDisplay.classList.add ('scoreRank3')
+    }
+    else if (score < 8000) {
+      scoreDisplay.style.color = "whitesmoke"
+      scoreDisplay.classList.add ('scoreRank4')
+    }
+    else if (score < 10000) {
+      scoreDisplay.style.color = "whitesmoke"
+      scoreDisplay.classList.add ('scoreRank5')
+    }
+    else {
+      scoreDisplay.style.color = "whitesmoke"
+      scoreDisplay.classList.add ('scoreRank6')
+    }
+    
+    scoreDisplay.innerHTML = `Score: ${score}`
+    console.log(score)
   }
+
   else if (cardOfButton.getAttribute('data-correct') !== this.innerHTML) {
     score = score - parseInt(cardOfButton.getAttribute('data-value'))
-    scoreDisplay.innerHTML = score
+    if (score < 0) {
+      scoreDisplay.style.color = "red"
+    }
+    scoreDisplay.innerHTML = `Score: ${score}`
   }
-  cardOfButton.removeEventListener('click', flipCard, {once: true})
+  cardOfButton.removeEventListener('click', flipCard,)
 }
+
+
+
 
 //------------------------- ^card flip and result^ ------------------
 
@@ -348,8 +364,15 @@ let modalGuts = document.querySelector('.modal-guts')
 
 function toggleModal() { // function to hide modal on button click
   modalContainer.classList.add('hidden')
-
 }
+
+
+
+
+
+// if (emptyCardArr.indexOf(whatever) != -1){emptyCardArr.push(whateever)}
+
+
 
 //---------------Pseduo code---------------\\
 // create two teams, using a submit box to make "team names"
