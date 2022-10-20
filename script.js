@@ -306,8 +306,7 @@ function addCategory(category) {
 
     card.setAttribute("data-question", question.question);
     question.choices.forEach((choice, index) =>
-      card.setAttribute(`data-choices-${index + 1}`, choice)
-    ); //sets data-choices to each question
+    card.setAttribute(`data-choices-${index + 1}`, choice)); //sets data-choices to each question
     card.setAttribute("data-correct", question.correct);
     card.setAttribute("data-value", card.getInnerHTML());
 
@@ -400,19 +399,25 @@ function getResult() {
     // gifModal = document.querySelectorAll('#gif-modal')
     // gifModal.classList.remove('hidden')
     if (score < 0) {
-        alert("GURRRRRL! You must have been first out! Refreseh the page and try again!")
-    }
-    else if (score < 4000) {
-      alert("Well there is always a filler queen each season. Refresh the page and get and try again.")
-    }
-   else  if (score < 8000) {
-      alert("Not bad Miss Congeniality. Refresh the page and get ready for All Stars.")
-    }
-    else if (score < 12000) {
-      alert("You made it to the finale! but didnt stach the crown. Refresh and try again queen.")
-    }
-    else {
-      alert("You're a winner baby! Now prance my Queen! To Play again, refresh the page.")
+      alert(
+        "GURRRRRL! You must have been first out! Refreseh the page and try again!"
+      );
+    } else if (score < 4000) {
+      alert(
+        "Well there is always a filler queen each season. Refresh the page and get and try again."
+      );
+    } else if (score < 8000) {
+      alert(
+        "Not bad Miss Congeniality. Refresh the page and get ready for All Stars."
+      );
+    } else if (score < 12000) {
+      alert(
+        "You made it to the finale! but didnt stach the crown. Refresh and try again queen."
+      );
+    } else {
+      alert(
+        "You're a winner baby! Now prance my Queen! To Play again, refresh the page."
+      );
     }
   }
 }
